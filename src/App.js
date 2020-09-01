@@ -1,20 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
-import Post from './Post'
+import Post from './Post';
+import { db } from './firebase';
 
 function App() {
-  const [posts, setPosts] = useState([
-    {
-      username: "Hassan", 
-      caption: "React is pretty cool!",
-      imageUrl: "https://www.freecodecamp.org/news/content/images/size/w2000/2020/02/Ekran-Resmi-2019-11-18-18.08.13.png"
-    },
-    {
-      username: "Hammad", 
-      caption: "Game development is fun!",
-      imageUrl: "https://www.freecodecamp.org/news/content/images/size/w2000/2020/02/Ekran-Resmi-2019-11-18-18.08.13.png"
-    }
-  ]);
+  const [posts, setPosts] = useState([]);
+
+  // UseEffect runs a piece of code based on a specific condition
+
+  useEffect(() => {
+    // this is where the code runs
+    db.collection('posts').onSnapshot(snapshot => {
+      // every time a new post is added, this code fires...
+      setPosts(snapshot.docs.map(doc => doc.data()));
+    })
+  }, []);
 
   return (
     <div className="App">
@@ -22,7 +22,7 @@ function App() {
       <div className="app__header">
         <img
           className="app_headerImage"
-          src="{ImageUrl}"
+          src="https://www.instagram.com/static/images/web/mobile_nav_type_logo.png/735145cfe0a4.png"
           alt=""
         />
       </div>
@@ -32,7 +32,7 @@ function App() {
         ))
       }
 
-      <Post username="Huzaifa" caption="I want to be a data scientist!" imageUrl="https://www.freecodecamp.org/news/content/images/size/w2000/2020/02/Ekran-Resmi-2019-11-18-18.08.13.png"/>
+      {/* <Post username="Huzaifa" caption="I want to be a data scientist!" imageUrl="https://www.freecodecamp.org/news/content/images/size/w2000/2020/02/Ekran-Resmi-2019-11-18-18.08.13.png"/> */}
 
       {/* Posts */ }
       {/* Posts */ }
